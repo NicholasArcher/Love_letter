@@ -10,8 +10,11 @@ var wss = new WebSocket.Server({server});
 app.use(express.static(__dirname));
 
 wss.on("connection", (ws) => {
-    ws.on("message", (message) => {console.log(message)});
+    ws.on("message", (message) => {
+        console.log(message);
+        wss.clients.forEach((client) => {
+            client.send(message);
+        });
+    });
     console.log("Connection established");
-})
-
-
+});

@@ -9,8 +9,8 @@
     <body>
         <div id="logs">
         </div>
-        <input type="text" />
-        <button>
+        <input type="text" id="message" />
+        <button id="submit">
             submit
         </button>
 
@@ -19,7 +19,18 @@
 
     <script>
         var webSocket = new WebSocket("ws://localhost:3000")
-    
+        webSocket.onopen= function () {
+            document.getElementById("submit").onclick=function() {
+                webSocket.send(document.getElementById("message").value);
+            }
+        };
+
+        webSocket.onmessage= function (message) {
+            var messageNode = document.createTextNode(message.data);
+            console.log(message.data);
+            document.getElementById("logs").appendChild(messageNode);
+        }
+   
     </script>
     </body>
 
